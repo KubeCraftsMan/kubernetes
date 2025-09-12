@@ -14,7 +14,7 @@ spec:
         app: llamastack
     spec:
       containers:
-        # Sidecar do Ollama
+        # Sidecar Ollama
         - name: ollama
           image: ollama/ollama:latest
           ports:
@@ -26,14 +26,20 @@ spec:
             limits:
               cpu: "500m"
               memory: "1Gi"
-        # Container LlamaStack
+          readinessProbe:
+            httpGet:
+              path: /api/models
+              port: 11434
+            initialDelaySeconds: 10
+            periodSeconds: 5
+        # Llama Stack
         - name: llamastack
-          image: llamastack/distribution-ollama:latest
+          image: llamastack/distribution-starter:latest
           ports:
-            - containerPort: 5001
+            - containerPort: 8321
           env:
             - name: INFERENCE_MODEL
-              value: "llama3.2:3b"
+              value: "ollama/llama3.2:3b"
             - name: OLLAMA_URL
               value: "http://localhost:11434"
           resources:
@@ -43,3 +49,17 @@ spec:
             limits:
               cpu: "500m"
               memory: "1Gi"
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 8321
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          volumeMounts:
+            - name: llama-data
+              mountPath: /root/.llama
+      volumes:
+        - name: llama-data
+          emptyDir: {}
+      imagePullSecrets:
+        - name: ghcr-secret

@@ -8,8 +8,8 @@ spec:
     app: llamastack
   ports:
     - name: api
-      port: 5001
-      targetPort: 5001
+      port: 8321
+      targetPort: 8321
     - name: ollama
       port: 11434
       targetPort: 11434

@@ -1,28 +1,34 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: llama-stack-server
-  namespace: llamastack
+  name: vllm-server
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: llama-stack
+      app.kubernetes.io/name: vllm
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: llama-stack
+        app.kubernetes.io/name: vllm
     spec:
       containers:
-      - name: llama-stack
-        image: localhost/llama-stack-run-k8s:latest
-        imagePullPolicy: IfNotPresent
-        command: ["python", "-m", "llama_stack.core.server.server", "--config", "/app/config.yaml"]
+      - name: vllm
+        image: vllm/vllm-openai:latest
+        command: ["/bin/sh", "-c"]
+        args: ["vllm serve meta-llama/Llama-3.2-1B-Instruct"]
+        env:
+        - name: HUGGING_FACE_HUB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: hf-token-secret
+              key: token
         ports:
-          - containerPort: 5000
+          - containerPort: 8000
         volumeMounts:
           - name: llama-storage
-            mountPath: /root/.llama
+            mountPath: /root/.cache/huggingface
       volumes:
       - name: llama-storage
-        emptyDir: {}
+        persistentVolumeClaim:
+          claimName: vllm-models

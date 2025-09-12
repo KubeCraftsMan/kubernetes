@@ -13,12 +13,15 @@ spec:
       labels:
         app: llamastack
     spec:
-      # Se a imagem estiver em um registry privado, mantenha o imagePullSecrets
-      imagePullSecrets:
-        - name: ghcr-secret
       containers:
+        # Container Ollama (sidecar)
+        - name: ollama
+          image: ollama/ollama:latest
+          ports:
+            - containerPort: 11434
+          # Se precisar de variáveis de ambiente para Ollama, adicione aqui
+        # Container Llama Stack
         - name: llamastack
-          # Substitua pela imagem do Llama Stack com Ollama
           image: llamastack/distribution-ollama:latest
           ports:
             - containerPort: 5001
@@ -26,4 +29,4 @@ spec:
             - name: INFERENCE_MODEL
               value: "llama3.2:3b"
             - name: OLLAMA_URL
-              value: "http://ollama.llamastack.svc.cluster.local:11434"
+              value: "http://localhost:11434" # conecta ao sidecar

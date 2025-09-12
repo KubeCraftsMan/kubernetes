@@ -14,20 +14,19 @@ spec:
         app: llamastack
     spec:
       containers:
-        # Sidecar: Ollama
+        # Sidecar do Ollama
         - name: ollama
           image: ollama/ollama:latest
           ports:
             - containerPort: 11434
           resources:
             requests:
-              cpu: "500m"         # garante meio core reservado
-              memory: "1Gi"       # garante 1Gi mínimo
+              cpu: "250m"
+              memory: "512Mi"
             limits:
-              cpu: "1"            # não passa de 1 core
-              memory: "2Gi"       # não passa de 2Gi
-
-        # Container principal: Llama Stack
+              cpu: "500m"
+              memory: "1Gi"
+        # Container LlamaStack
         - name: llamastack
           image: llamastack/distribution-ollama:latest
           ports:
@@ -39,8 +38,8 @@ spec:
               value: "http://localhost:11434"
           resources:
             requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
               cpu: "500m"
               memory: "1Gi"
-            limits:
-              cpu: "1"
-              memory: "2Gi"

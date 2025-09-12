@@ -13,7 +13,11 @@ spec:
       labels:
         app: llamastack
     spec:
+      # Referência ao secret para puxar imagens privadas
+      imagePullSecrets:
+        - name: ghcr-secret
       containers:
+        # Sidecar Ollama
         - name: ollama
           image: ollama/ollama:latest
           ports:
@@ -38,6 +42,7 @@ spec:
             failureThreshold: 30
             periodSeconds: 5
 
+        # Llama Stack
         - name: llamastack
           image: llamastack/distribution-starter:latest
           ports:

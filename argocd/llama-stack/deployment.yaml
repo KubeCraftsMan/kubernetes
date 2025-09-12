@@ -1,73 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: llamastack
+  name: llama-stack-server
   namespace: llamastack
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: llamastack
+      app.kubernetes.io/name: llama-stack
   template:
     metadata:
       labels:
-        app: llamastack
+        app.kubernetes.io/name: llama-stack
     spec:
-      # Referência ao secret para puxar imagens privadas
-      imagePullSecrets:
-        - name: ghcr-secret
       containers:
-        # Sidecar Ollama
-        - name: ollama
-          image: ollama/ollama:latest
-          ports:
-            - containerPort: 11434
-          resources:
-            requests:
-              cpu: "500m"
-              memory: "1Gi"
-            limits:
-              cpu: "1"
-              memory: "2Gi"
-          readinessProbe:
-            httpGet:
-              path: /api/health
-              port: 11434
-            initialDelaySeconds: 10
-            periodSeconds: 5
-          startupProbe:
-            httpGet:
-              path: /api/health
-              port: 11434
-            failureThreshold: 30
-            periodSeconds: 5
-
-        # Llama Stack
-        - name: llamastack
-          image: llamastack/distribution-starter:latest
-          ports:
-            - containerPort: 8321
-          env:
-            - name: OLLAMA_URL
-              value: "http://127.0.0.1:11434"
-            - name: INFERENCE_MODEL
-              value: "ollama/llama3.2:3b"
-          resources:
-            requests:
-              cpu: "500m"
-              memory: "1Gi"
-            limits:
-              cpu: "1"
-              memory: "2Gi"
-          readinessProbe:
-            httpGet:
-              path: /api/ps
-              port: 8321
-            initialDelaySeconds: 20
-            periodSeconds: 5
-          startupProbe:
-            httpGet:
-              path: /api/ps
-              port: 8321
-            failureThreshold: 30
-            periodSeconds: 5
+      - name: llama-stack
+        image: localhost/llama-stack-run-k8s:latest
+        imagePullPolicy: IfNotPresent
+        command: ["python", "-m", "llama_stack.core.server.server", "--config", "/app/config.yaml"]
+        ports:
+          - containerPort: 5000
+        volumeMounts:
+          - name: llama-storage
+            mountPath: /root/.llama
+      volumes:
+      - name: llama-storage
+        emptyDir: {}

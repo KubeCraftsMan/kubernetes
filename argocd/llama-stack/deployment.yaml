@@ -13,9 +13,11 @@ spec:
       labels:
         app: llamastack
     spec:
+      imagePullSecrets:
+        - name: ghcr-secret
       containers:
         - name: llamastack
-          image: ghcr.io/llm-stack/llama-stack:latest
+          image: ghcr.io/llm-stack/llama-stack:v0.2.21
           ports:
             - containerPort: 8321
           env:

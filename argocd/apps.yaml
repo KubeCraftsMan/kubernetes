@@ -9,10 +9,10 @@ spec:
         repoURL: https://github.com/KubeCraftsMan/kubernetes.git
         revision: HEAD
         directories:
-          - path: '*'  # pega todas as pastas do repo
+          - path: 'argocd/*'  # pega todas as pastas dentro de argocd
   template:
     metadata:
-      name: '{{path.basename | toLower}}'   # nome da Application em minúsculo
+      name: '{{path.basename}}'   # nome da Application (use nomes válidos em minúsculo)
     spec:
       project: default
       source:
@@ -21,7 +21,7 @@ spec:
         path: '{{path}}'
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{path.basename | toLower}}'   # namespace baseado na pasta                      # cria namespace automaticamente
+        namespace: '{{path.basename}}'  # cada app em seu namespace
       syncPolicy:
         automated:
           prune: true

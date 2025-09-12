@@ -26,4 +26,4 @@ spec:
             - name: INFERENCE_MODEL
               value: "llama3.2:3b"
             - name: OLLAMA_URL
-              value: "http://host.docker.internal:11434"
+              value: "http://ollama.llamastack.svc.cluster.local:11434"

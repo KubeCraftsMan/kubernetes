@@ -13,13 +13,17 @@ spec:
       labels:
         app: llamastack
     spec:
+      # Se a imagem estiver em um registry privado, mantenha o imagePullSecrets
       imagePullSecrets:
         - name: ghcr-secret
       containers:
         - name: llamastack
-          image: ghcr.io/llm-stack/llama-stack:v0.2.20
+          # Substitua pela imagem do Llama Stack com Ollama
+          image: llamastack/distribution-ollama:latest
           ports:
-            - containerPort: 8321
+            - containerPort: 5001
           env:
-            - name: MODEL
-              value: "llama3"
+            - name: INFERENCE_MODEL
+              value: "llama3.2:3b"
+            - name: OLLAMA_URL
+              value: "http://host.docker.internal:11434"

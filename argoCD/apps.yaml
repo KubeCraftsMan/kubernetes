@@ -9,10 +9,10 @@ spec:
         repoURL: https://github.com/KubeCraftsMan/kubernetes.git
         revision: HEAD
         directories:
-          - path: '*'    # pega todos os diretórios automaticamente
+          - path: '*'
   template:
     metadata:
-      name: '{{path.basename | toLower}}'   # nome da Application em minúsculo
+      name: '{{path.basename | toLower}}'
     spec:
       project: default
       source:
@@ -21,7 +21,7 @@ spec:
         path: '{{path}}'
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{path.basename | toLower}}'  # cada app em um namespace com o nome da pasta
+        namespace: '{{path.basename | toLower}}'
       syncPolicy:
         automated:
           prune: true

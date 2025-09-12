@@ -12,7 +12,7 @@ spec:
           - path: '*'    # pega todos os diretórios automaticamente
   template:
     metadata:
-      name: '{{path.basename | toLower}}'   # converte nome da pasta para minúsculo
+      name: '{{path.basename | toLower}}'   # nome da Application em minúsculo
     spec:
       project: default
       source:
@@ -21,7 +21,7 @@ spec:
         path: '{{path}}'
       destination:
         server: https://kubernetes.default.svc
-        namespace: default
+        namespace: '{{path.basename | toLower}}'  # cada app em um namespace com o nome da pasta
       syncPolicy:
         automated:
           prune: true

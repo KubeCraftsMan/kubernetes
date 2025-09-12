@@ -9,10 +9,10 @@ spec:
         repoURL: https://github.com/KubeCraftsMan/kubernetes.git
         revision: HEAD
         directories:
-          - path: '*'
+          - path: '*'    # pega todos os diretórios automaticamente
   template:
     metadata:
-      name: '{{path.basename}}'
+      name: '{{path.basename | toLower}}'   # converte nome da pasta para minúsculo
     spec:
       project: default
       source:

@@ -22,6 +22,8 @@ spec:
           env:
             - name: VLLM_DEVICE
               value: cpu
+            - name: VLLM_LOGGING_LEVEL
+              value: DEBUG
             - name: HUGGING_FACE_HUB_TOKEN
               valueFrom:
                 secretKeyRef:

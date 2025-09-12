@@ -13,15 +13,7 @@ spec:
       labels:
         app: llamastack
     spec:
-      initContainers:
-        - name: init-ollama-model
-          image: ollama/ollama:latest
-          command: ["ollama", "pull", "llama3.2:3b"]
-          volumeMounts:
-            - name: ollama-models
-              mountPath: /root/.ollama/models
       containers:
-        # Ollama sidecar
         - name: ollama
           image: ollama/ollama:latest
           ports:
@@ -33,28 +25,26 @@ spec:
             limits:
               cpu: "1"
               memory: "2Gi"
-          volumeMounts:
-            - name: ollama-models
-              mountPath: /root/.ollama/models
           readinessProbe:
-            tcpSocket:
+            httpGet:
+              path: /api/health
               port: 11434
             initialDelaySeconds: 10
             periodSeconds: 5
           startupProbe:
-            tcpSocket:
+            httpGet:
+              path: /api/health
               port: 11434
             failureThreshold: 30
             periodSeconds: 5
 
-        # Llama Stack server
         - name: llamastack
           image: llamastack/distribution-starter:latest
           ports:
             - containerPort: 8321
           env:
             - name: OLLAMA_URL
-              value: "http://localhost:11434"
+              value: "http://127.0.0.1:11434"
             - name: INFERENCE_MODEL
               value: "ollama/llama3.2:3b"
           resources:
@@ -76,7 +66,3 @@ spec:
               port: 8321
             failureThreshold: 30
             periodSeconds: 5
-
-      volumes:
-        - name: ollama-models
-          emptyDir: {}

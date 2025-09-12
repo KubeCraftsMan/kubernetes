@@ -14,13 +14,20 @@ spec:
         app: llamastack
     spec:
       containers:
-        # Container Ollama (sidecar)
+        # Sidecar: Ollama
         - name: ollama
           image: ollama/ollama:latest
           ports:
             - containerPort: 11434
-          # Se precisar de variáveis de ambiente para Ollama, adicione aqui
-        # Container Llama Stack
+          resources:
+            requests:
+              cpu: "500m"         # garante meio core reservado
+              memory: "1Gi"       # garante 1Gi mínimo
+            limits:
+              cpu: "1"            # não passa de 1 core
+              memory: "2Gi"       # não passa de 2Gi
+
+        # Container principal: Llama Stack
         - name: llamastack
           image: llamastack/distribution-ollama:latest
           ports:
@@ -29,4 +36,11 @@ spec:
             - name: INFERENCE_MODEL
               value: "llama3.2:3b"
             - name: OLLAMA_URL
-              value: "http://localhost:11434" # conecta ao sidecar
+              value: "http://localhost:11434"
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "1Gi"
+            limits:
+              cpu: "1"
+              memory: "2Gi"

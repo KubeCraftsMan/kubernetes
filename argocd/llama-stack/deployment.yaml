@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: llama-stack-server
-  namespace: llamastack
 spec:
   replicas: 1
   selector:
@@ -15,7 +14,8 @@ spec:
     spec:
       containers:
       - name: llama-stack
-        image: llama-stack-run-k8s:latest
+        image: localhost/llama-stack-run-k8s:latest
         imagePullPolicy: IfNotPresent
+        command: ["python", "-m", "llama_stack.distribution.server.server", "--config", "/app/config.yaml"]
         ports:
           - containerPort: 5000

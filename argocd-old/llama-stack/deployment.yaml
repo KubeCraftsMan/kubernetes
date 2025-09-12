@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llamastack
+  namespace: llamastack
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: llamastack
+  template:
+    metadata:
+      labels:
+        app: llamastack
+    spec:
+      containers:
+        - name: llamastack
+          image: ghcr.io/llm-stack/llama-stack:latest
+          ports:
+            - containerPort: 8321
+          env:
+            - name: MODEL
+              value: "llama3"

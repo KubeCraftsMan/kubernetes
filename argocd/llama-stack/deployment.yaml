@@ -21,45 +21,50 @@ spec:
             - containerPort: 11434
           resources:
             requests:
-              cpu: "250m"
-              memory: "512Mi"
-            limits:
               cpu: "500m"
               memory: "1Gi"
+            limits:
+              cpu: "1"
+              memory: "2Gi"
           readinessProbe:
             httpGet:
               path: /api/models
               port: 11434
             initialDelaySeconds: 10
             periodSeconds: 5
+          startupProbe:
+            httpGet:
+              path: /api/models
+              port: 11434
+            failureThreshold: 30
+            periodSeconds: 5
+
         # Llama Stack
         - name: llamastack
           image: llamastack/distribution-starter:latest
           ports:
             - containerPort: 8321
           env:
-            - name: INFERENCE_MODEL
-              value: "ollama/llama3.2:3b"
             - name: OLLAMA_URL
               value: "http://localhost:11434"
+            - name: INFERENCE_MODEL
+              value: "ollama/llama3.2:3b"
           resources:
             requests:
-              cpu: "250m"
-              memory: "512Mi"
-            limits:
               cpu: "500m"
               memory: "1Gi"
+            limits:
+              cpu: "1"
+              memory: "2Gi"
           readinessProbe:
             httpGet:
-              path: /api/health
+              path: /api/ps
               port: 8321
-            initialDelaySeconds: 15
-            periodSeconds: 10
-          volumeMounts:
-            - name: llama-data
-              mountPath: /root/.llama
-      volumes:
-        - name: llama-data
-          emptyDir: {}
-      imagePullSecrets:
-        - name: ghcr-secret
+            initialDelaySeconds: 20
+            periodSeconds: 5
+          startupProbe:
+            httpGet:
+              path: /api/ps
+              port: 8321
+            failureThreshold: 30
+            periodSeconds: 5

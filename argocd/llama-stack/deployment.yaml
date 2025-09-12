@@ -1,35 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: vllm-server
+  name: llama-stack-server
   namespace: llamastack
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: vllm
+      app.kubernetes.io/name: llama-stack
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: vllm
+        app.kubernetes.io/name: llama-stack
     spec:
       containers:
-        - name: vllm
-          image: vllm/vllm-openai:v0.2.12
-          command: ["/bin/sh", "-c"]
-          args:
-            - vllm serve meta-llama/Llama-3.2-1B-Instruct
-          env:
-            - name: VLLM_DISABLE_AUTO_DETECT
-              value: "true"
-            - name: VLLM_DEVICE
-              value: cpu
-            - name: VLLM_LOGGING_LEVEL
-              value: DEBUG
-            - name: HUGGING_FACE_HUB_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: hf-token-secret
-                  key: token
-          ports:
-            - containerPort: 8000
+      - name: llama-stack
+        image: llama-stack-run-k8s:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 5000

@@ -20,6 +20,8 @@ spec:
           args:
             - vllm serve meta-llama/Llama-3.2-1B-Instruct
           env:
+            - name: VLLM_DISABLE_AUTO_DETECT
+              value: "true"
             - name: VLLM_DEVICE
               value: cpu
             - name: VLLM_LOGGING_LEVEL

@@ -42,8 +42,6 @@ spec:
           - "16384"
           - "--max-num-batched-tokens"
           - "16384"
-          - "--num-cores"
-          - "2"
           resources:
             requests:
               cpu: "2"

@@ -24,11 +24,11 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: hf-token
-                  key: HF_TOKEN   # corrigido para a chave correta do secret
+                  key: HF_TOKEN
             - name: VLLM_CPU_KVCACHE_SPACE
               value: "40"
             - name: VLLM_CPU_OMP_THREADS_BIND
-              value: "0-3"   # ajuste de acordo com os núcleos disponíveis no pod
+              value: "0-3"  # ajuste conforme núcleos disponíveis
             - name: VLLM_CPU_NUM_OF_RESERVED_CPU
               value: "1"
           args:
@@ -38,7 +38,6 @@ spec:
             - "bfloat16"
             - "--max-num-batched-tokens"
             - "131072"
-            - "--disable-gpu"
           securityContext:
             capabilities:
               add:

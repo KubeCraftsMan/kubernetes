@@ -32,19 +32,25 @@ spec:
             - name: VLLM_CPU_NUM_OF_RESERVED_CPU
               value: "1"
           args:
-            - "--model"
-            - "meta-llama/Llama-3.2-1B-Instruct"
-            - "--dtype"
-            - "float16"
-            - "--max-model-len"
-            - "131072"
+          - "--model"
+          - "TheBloke/Llama-2-7B-Chat-AWQ"
+          - "--quantization"
+          - "awq"
+          - "--dtype"
+          - "float16"
+          - "--max-model-len"
+          - "16384"
+          - "--max-num-batched-tokens"
+          - "16384"
+          - "--num-cores"
+          - "2"
           resources:
             requests:
               cpu: "2"
-              memory: "2Gi"
+              memory: "8Gi"
             limits:
               cpu: "4"
-              memory: "3Gi"
+              memory: "12Gi"
           securityContext:
             capabilities:
               add:

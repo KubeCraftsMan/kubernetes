@@ -25,23 +25,17 @@ spec:
                 secretKeyRef:
                   name: hf-token
                   key: HF_TOKEN
-            - name: VLLM_CPU_KVCACHE_SPACE
-              value: "40"
-            - name: VLLM_CPU_OMP_THREADS_BIND
-              value: "0-3"  # ajuste conforme núcleos disponíveis
-            - name: VLLM_CPU_NUM_OF_RESERVED_CPU
-              value: "1"
           args:
-          - "--model"
-          - "TheBloke/Llama-2-7B-Chat-AWQ"
-          - "--quantization"
-          - "awq"
-          - "--dtype"
-          - "float16"
-          - "--max-model-len"
-          - "16384"
-          - "--max-num-batched-tokens"
-          - "16384"
+            - "--model"
+            - "TheBloke/Llama-2-7B-Chat-AWQ"
+            - "--quantization"
+            - "awq"
+            - "--dtype"
+            - "float16"
+            - "--max-model-len"
+            - "4096"
+            - "--max-num-batched-tokens"
+            - "4096"
           resources:
             requests:
               cpu: "2"

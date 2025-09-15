@@ -27,9 +27,7 @@ spec:
                   key: HF_TOKEN
           args:
             - "--model"
-            - "TheBloke/Llama-2-7B-Chat.Q4_K_M"
-            - "--quantization"
-            - "awq"
+            - "TheBloke/Llama-2-7B-Chat-GGUF"
             - "--dtype"
             - "float32"
             - "--max-model-len"

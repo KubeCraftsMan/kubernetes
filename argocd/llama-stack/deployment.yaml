@@ -37,7 +37,14 @@ spec:
             - "--dtype"
             - "bfloat16"
             - "--max-num-batched-tokens"
-            - "131072"
+            - "16384"
+          resources:
+            requests:
+              memory: "16Gi"
+              cpu: "4"
+            limits:
+              memory: "32Gi"
+              cpu: "8"
           securityContext:
             capabilities:
               add:

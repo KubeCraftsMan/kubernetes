@@ -34,6 +34,8 @@ spec:
             - "4096"
             - "--max-num-batched-tokens"
             - "4096"
+            - "--model-type"
+            - "llama"
           resources:
             requests:
               cpu: "2"

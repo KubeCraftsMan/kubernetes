@@ -15,24 +15,27 @@ spec:
     spec:
       containers:
         - name: llama-stack
-          image: brcaetano/vllm-cpu-env:llama
+          image: vllm/vllm-openai:v0.10.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000
+          env:
+            - name: TRANSFORMERS_OFFLINE
+              value: "1"
+            - name: HF_DATASETS_OFFLINE
+              value: "1"
           args:
             - "--model"
-            - "/models/Llama-3.2-SUN-1B-chat-GGUF"
-            - "--max-model-len"
-            - "2048"
-            - "--max-num-batched-tokens"
-            - "2048"
+            - "HuggingFaceTB/SmolLM3-3B"
+            - "--host"
+            - "0.0.0.0"
+            - "--port"
+            - "8000"
           resources:
+            limits:
+              nvidia.com/gpu: 1       # Limita a 1 GPU
+              cpu: "2"
+              memory: "6Gi"
             requests:
               cpu: "1"
               memory: "4Gi"
-            limits:
-              cpu: "2"
-              memory: "6Gi"
-          securityContext:
-            capabilities:
-              add:

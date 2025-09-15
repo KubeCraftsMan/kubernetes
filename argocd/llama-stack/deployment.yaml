@@ -15,21 +15,13 @@ spec:
     spec:
       containers:
         - name: llama-stack
-          image: brcaetano/vllm-cpu-env:latest
+          image: vllm-cpu-local:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000
-          env:
-            - name: HF_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: hf-token
-                  key: HF_TOKEN
           args:
             - "--model"
-            - "TheBloke/Llama-2-1B-Chat-GGUF"
-            - "--dtype"
-            - "float32"
+            - "/models/Llama-3.2-SUN-1B-chat-GGUF/Llama-3.2-SUN-1B-chat.Q4_K_M.gguf"
             - "--max-model-len"
             - "2048"
             - "--max-num-batched-tokens"
@@ -44,6 +36,3 @@ spec:
           securityContext:
             capabilities:
               add:
-                - SYS_NICE
-            seccompProfile:
-              type: Unconfined

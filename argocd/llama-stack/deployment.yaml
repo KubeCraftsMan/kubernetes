@@ -27,22 +27,20 @@ spec:
                   key: HF_TOKEN
           args:
             - "--model"
-            - "TheBloke/Llama-2-7B-Chat-GGUF"
+            - "TheBloke/Llama-2-1B-Chat-GGUF"
             - "--dtype"
             - "float32"
             - "--max-model-len"
-            - "4096"
+            - "2048"
             - "--max-num-batched-tokens"
-            - "4096"
-            - "--model-type"
-            - "llama"
+            - "2048"
           resources:
             requests:
-              cpu: "2"
-              memory: "8Gi"
+              cpu: "1"
+              memory: "4Gi"
             limits:
-              cpu: "4"
-              memory: "12Gi"
+              cpu: "2"
+              memory: "6Gi"
           securityContext:
             capabilities:
               add:

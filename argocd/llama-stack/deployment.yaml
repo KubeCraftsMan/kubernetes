@@ -24,7 +24,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: hf-token
-                  key: token
+                  key: HF_TOKEN
             - name: VLLM_CPU_KVCACHE_SPACE
               value: "40"
             - name: VLLM_CPU_OMP_THREADS_BIND

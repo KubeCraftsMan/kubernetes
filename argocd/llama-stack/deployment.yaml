@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: llama-stack
-        image: localhost/llama-stack-run-k8s:latest
+        image: brcaetano/vllm-cpu-env
         imagePullPolicy: IfNotPresent
         ports:
           - containerPort: 5000

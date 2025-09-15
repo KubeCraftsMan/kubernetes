@@ -39,7 +39,7 @@ spec:
             - "--dtype"
             - "float16"
             - "--max-num-batched-tokens"
-            - "16384"
+            - "131072"
           resources:
             requests:
               cpu: "2"

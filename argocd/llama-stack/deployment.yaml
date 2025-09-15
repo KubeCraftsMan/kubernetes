@@ -1,40 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: llama-stack-server
+  creationTimestamp: null
+  labels:
+    app: nginx
+  name: nginx
   namespace: llamastack
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
-      app.kubernetes.io/name: llama-stack
+      app: nginx
+  strategy: {}
   template:
     metadata:
+      creationTimestamp: null
       labels:
-        app.kubernetes.io/name: llama-stack
+        app: nginx
     spec:
       containers:
-        - name: llama-stack
-          image: vllm/vllm-openai:v0.10.0
-          imagePullPolicy: IfNotPresent
-          ports:
-            - containerPort: 8000
-          env:
-            - name: TRANSFORMERS_OFFLINE
-              value: "1"
-            - name: HF_DATASETS_OFFLINE
-              value: "1"
-          args:
-            - "--model"
-            - "HuggingFaceTB/SmolLM3-3B"
-            - "--host"
-            - "0.0.0.0"
-            - "--port"
-            - "8000"
-          resources:
-            limits:
-              cpu: "2"
-              memory: "6Gi"
-            requests:
-              cpu: "1"
-              memory: "4Gi"
+      - image: nginx
+        name: nginx
+        resources: {}
+status: {}

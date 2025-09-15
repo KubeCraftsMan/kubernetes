@@ -34,11 +34,9 @@ spec:
           args:
             - "--model"
             - "meta-llama/Llama-3.2-1B-Instruct"
-            - "--quantization"
-            - "awq"               # usa quantização leve (SpinQuant/awq)
             - "--dtype"
             - "float16"
-            - "--max-num-batched-tokens"
+            - "--max-model-len"
             - "131072"
           resources:
             requests:

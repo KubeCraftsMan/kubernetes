@@ -21,7 +21,7 @@ spec:
             - containerPort: 8000
           args:
             - "--model"
-            - "/models/Llama-3.2-SUN-1B-chat-GGUF/Llama-3.2-SUN-1B-chat.gguf"
+            - "/models/Llama-3.2-SUN-1B-chat-GGUF"
             - "--max-model-len"
             - "2048"
             - "--max-num-batched-tokens"

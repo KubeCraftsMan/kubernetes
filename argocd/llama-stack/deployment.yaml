@@ -15,7 +15,22 @@ spec:
     spec:
       containers:
       - name: llama-stack
-        image: brcaetano/vllm-cpu-env
+        image: brcaetano/vllm-cpu-env:latest
         imagePullPolicy: IfNotPresent
         ports:
-          - containerPort: 5000
+          - containerPort: 8000
+        env:
+          - name: VLLM_CPU_KVCACHE_SPACE
+            value: "40"               # KV cache em GiB
+          - name: VLLM_CPU_OMP_THREADS_BIND
+            value: "0-30"             # Bind de threads OpenMP
+          - name: VLLM_CPU_NUM_OF_RESERVED_CPU
+            value: "1"                # CPUs reservadas para o framework
+          - name: MAX_NUM_BATCHED_TOKENS
+            value: "40960"            # Ajusta batch para suportar max_model_len
+        securityContext:
+          capabilities:
+            add:
+              - SYS_NICE
+          seccompProfile:
+            type: Unconfined

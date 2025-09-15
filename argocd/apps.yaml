@@ -9,7 +9,8 @@ spec:
         repoURL: https://github.com/KubeCraftsMan/kubernetes.git
         revision: HEAD
         directories:
-          - path: 'argocd/*'  # pega todas as pastas dentro de argocd
+          - path: 'argocd/*'
+          - exclude: 'argocd/llama-stack'  # pega todas as pastas dentro de argocd
   template:
     metadata:
       name: '{{path.basename}}'   # nome da Application (use nomes válidos em minúsculo)

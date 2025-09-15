@@ -20,11 +20,14 @@ spec:
           ports:
             - containerPort: 8000
           env:
+            # Token Hugging Face a partir do Secret
             - name: HF_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: hf-token      # Nome do Secret
-                  key: HF_TOKEN       # Chave dentro do Secret
+                  name: hf-token
+                  key: HF_TOKEN
+
+            # Configurações de CPU para vLLM
             - name: VLLM_CPU_KVCACHE_SPACE
               value: "40"
             - name: VLLM_CPU_OMP_THREADS_BIND

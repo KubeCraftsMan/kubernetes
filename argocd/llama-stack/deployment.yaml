@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: llama-stack
-          image: vllm-cpu-local:latest
+          image: brcaetano/vllm-cpu-env:llama
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000

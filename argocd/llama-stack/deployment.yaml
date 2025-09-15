@@ -6,13 +6,13 @@ metadata:
 spec:
   containers:
   - name: vllm
-    image: vllm/vllm:latest  # ajuste para a versão que você usa
+    image: brcaetano/vllm-cpu-env:latest # ajuste para a versão que você usa
     env:
       - name: HF_TOKEN
         valueFrom:
           secretKeyRef:
             name: hf-token
-            key: HF_TOKEN  # o nome da chave que você colocou no secret
+            key: token  # o nome da chave que você colocou no secret
     command: ["python", "-m", "vllm.entrypoints.openai.api_server"]
     args:
       - "--model"

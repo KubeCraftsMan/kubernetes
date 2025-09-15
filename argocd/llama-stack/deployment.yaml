@@ -33,7 +33,6 @@ spec:
             - "8000"
           resources:
             limits:
-              nvidia.com/gpu: 1       # Limita a 1 GPU
               cpu: "2"
               memory: "6Gi"
             requests:

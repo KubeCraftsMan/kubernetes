@@ -20,6 +20,11 @@ spec:
           ports:
             - containerPort: 8000
           env:
+            - name: HF_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: hf-token      # Nome do Secret
+                  key: HF_TOKEN       # Chave dentro do Secret
             - name: VLLM_CPU_KVCACHE_SPACE
               value: "40"
             - name: VLLM_CPU_OMP_THREADS_BIND

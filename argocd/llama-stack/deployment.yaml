@@ -27,11 +27,11 @@ spec:
                   key: HF_TOKEN
           args:
             - "--model"
-            - "TheBloke/Llama-2-7B-Chat-AWQ"
+            - "TheBloke/Llama-2-7B-Chat.Q4_K_M"
             - "--quantization"
             - "awq"
             - "--dtype"
-            - "float16"
+            - "float32"
             - "--max-model-len"
             - "4096"
             - "--max-num-batched-tokens"

@@ -40,11 +40,11 @@ spec:
             - "16384"
           resources:
             requests:
+              memory: "8Gi"
+              cpu: "2"
+            limits:
               memory: "16Gi"
               cpu: "4"
-            limits:
-              memory: "32Gi"
-              cpu: "8"
           securityContext:
             capabilities:
               add:

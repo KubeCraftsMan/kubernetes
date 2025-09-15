@@ -1,33 +1,47 @@
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: vllm-cpu
+  name: llama-stack-server
   namespace: llamastack
 spec:
-  containers:
-  - name: vllm
-    image: brcaetano/vllm-cpu-env:latest # ajuste para a versão que você usa
-    env:
-      - name: HF_TOKEN
-        valueFrom:
-          secretKeyRef:
-            name: hf-token
-            key: token  # o nome da chave que você colocou no secret
-    command: ["python", "-m", "vllm.entrypoints.openai.api_server"]
-    args:
-      - "--model"
-      - "meta-llama/Llama-3.2-1B-Instruct"
-      - "--dtype"
-      - "bfloat16"
-      - "--max-num-batched-tokens"
-      - "131072"          # igual ao max_model_len, evitando erros de SchedulerConfig
-      - "--num-cores"
-      - "4"               # ajuste de acordo com os núcleos do pod
-      - "--disable-gpu"    # força CPU-only
-    resources:
-      limits:
-        cpu: "4"          # ajuste conforme a disponibilidade
-        memory: "8Gi"     # ajuste conforme a disponibilidade
-      requests:
-        cpu: "2"
-        memory: "4Gi"
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: llama-stack
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: llama-stack
+    spec:
+      containers:
+        - name: llama-stack
+          image: brcaetano/vllm-cpu-env:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          env:
+            - name: HF_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: hf-token
+                  key: token   # corrigido para a chave correta do secret
+            - name: VLLM_CPU_KVCACHE_SPACE
+              value: "40"
+            - name: VLLM_CPU_OMP_THREADS_BIND
+              value: "0-3"   # ajuste de acordo com os núcleos disponíveis no pod
+            - name: VLLM_CPU_NUM_OF_RESERVED_CPU
+              value: "1"
+          args:
+            - "--model"
+            - "meta-llama/Llama-3.2-1B-Instruct"
+            - "--dtype"
+            - "bfloat16"
+            - "--max-num-batched-tokens"
+            - "131072"
+            - "--disable-gpu"
+          securityContext:
+            capabilities:
+              add:
+                - SYS_NICE
+            seccompProfile:
+              type: Unconfined

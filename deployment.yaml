@@ -1,25 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
+  name: nginx-deployment
   labels:
     app: nginx
-  name: nginx
-  namespace: llamastack
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: nginx
-  strategy: {}
   template:
     metadata:
-      creationTimestamp: null
+      name: nginx
       labels:
         app: nginx
     spec:
       containers:
-      - image: nginx
-        name: nginx
-        resources: {}
-status: {}
+      - name: nginx
+        image: nginx

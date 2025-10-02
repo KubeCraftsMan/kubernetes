@@ -9,7 +9,7 @@ spec:
         repoURL: https://github.com/KubeCraftsMan/kubernetes.git
         revision: HEAD
         directories:
-          - path: 'argocd/*'
+          - path: 'argocd/nginx'
   template:
     metadata:
       name: '{{path.basename}}'   # nome da Application (use nomes válidos em minúsculo)

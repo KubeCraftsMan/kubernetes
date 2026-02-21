@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-assistant-settings
+  namespace: argocd
+data:
+  settings.js: |
+    var argocdAssistantSettings = {
+        provider: "Llama-Stack-V2"
+    };
+    (() => {
+        console.log("Initializing Argo CD Assistant Settings");
+        console.log(globalThis.argocdAssistantSettings);
+    })();

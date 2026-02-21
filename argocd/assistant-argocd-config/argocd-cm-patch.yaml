@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd
+data:
+  extension.config.assistant: |
+    connectionTimeout: 2s
+    keepAlive: 360s
+    idleConnectionTimeout: 360s
+    maxIdleConnections: 30
+    services:
+    - url: http://llamastack.llamastack.svc.cluster.local:8321

@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llamastack
+  namespace: llamastack
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: llamastack
+  template:
+    metadata:
+      labels:
+        app: llamastack
+    spec:
+      containers:
+        - name: llamastack
+          image: docker.io/llamastack/distribution-starter:0.2.24
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8321
+              protocol: TCP
+          env:
+            - name: AZURE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: azure-openai-secret
+                  key: AZURE_API_KEY
+            - name: AZURE_API_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: azure-openai-secret
+                  key: AZURE_API_BASE
+            - name: AZURE_API_VERSION
+              valueFrom:
+                secretKeyRef:
+                  name: azure-openai-secret
+                  key: AZURE_API_VERSION
+            - name: AZURE_API_TYPE
+              value: "azure"
+          volumeMounts:
+            - mountPath: /.llama/distributions
+              name: distributions
+      volumes:
+        - name: distributions
+          emptyDir: {}
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30

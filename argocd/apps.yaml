@@ -10,6 +10,7 @@ spec:
         revision: HEAD
         directories:
           - path: 'argocd/nginx'
+          - path: 'argocd/llamastack'
   template:
     metadata:
       name: '{{path.basename}}'   # nome da Application (use nomes válidos em minúsculo)

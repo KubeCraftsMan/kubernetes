@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-server
+  namespace: argocd
+spec:
+  template:
+    spec:
+      initContainers:
+        - name: extension-assistant-installer
+          image: quay.io/argoprojlabs/argocd-extension-installer:v0.0.9
+          env:
+            - name: EXTENSION_URL
+              value: "https://github.com/argoproj-labs/assistant-for-argocd/releases/download/v0.3.0/extension-assistant-0.3.0.tar"
+          volumeMounts:
+            - name: extensions
+              mountPath: /tmp/extensions/
+          securityContext:
+            allowPrivilegeEscalation: false
+        - name: extension-assistant-settings
+          image: busybox:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              mkdir -p /tmp/extensions/extensions-assistant-settings
+              cp /config/settings.js /tmp/extensions/extensions-assistant-settings/settings.js
+          volumeMounts:
+            - name: extensions
+              mountPath: /tmp/extensions/
+            - name: assistant-settings-config
+              mountPath: /config
+          securityContext:
+            allowPrivilegeEscalation: false
+      containers:
+        - name: argocd-server
+          volumeMounts:
+            - name: extensions
+              mountPath: /tmp/extensions/
+      volumes:
+        - name: extensions
+          emptyDir: {}
+        - name: assistant-settings-config
+          configMap:
+            name: argocd-assistant-settings

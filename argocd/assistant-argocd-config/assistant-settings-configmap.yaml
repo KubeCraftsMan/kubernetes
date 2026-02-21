@@ -6,7 +6,8 @@ metadata:
 data:
   settings.js: |
     var argocdAssistantSettings = {
-        provider: "Llama-Stack-V2"
+        provider: "Llama-Stack-V2",
+        model: "azure/gpt-4o-mini"
     };
     (() => {
         console.log("Initializing Argo CD Assistant Settings");

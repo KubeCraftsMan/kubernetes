@@ -7,9 +7,6 @@ data:
   settings.js: |
     var argocdAssistantSettings = {
         provider: "Llama-Stack-V2",
-        model: "azure/gpt-4o-mini"
+        baseUrl: "http://llamastack.llamastack.svc.cluster.local:8321/v1/openai/v1",
+        model: "llamastack"
     };
-    (() => {
-        console.log("Initializing Argo CD Assistant Settings");
-        console.log(globalThis.argocdAssistantSettings);
-    })();

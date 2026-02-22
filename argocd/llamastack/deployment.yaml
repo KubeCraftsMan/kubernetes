@@ -3,8 +3,6 @@ kind: Deployment
 metadata:
   name: llamastack
   namespace: llamastack
-  annotations:
-    argocd.argoproj.io/sync-wave: "5"
 spec:
   replicas: 1
   selector:
@@ -18,10 +16,10 @@ spec:
       containers:
         - name: llamastack
           image: docker.io/llamastack/distribution-starter:0.2.24
-          imagePullPolicy: Always
+          command: ["python", "-m", "llama_stack.core.server.server"]
+          args: ["/config/run.yaml"]
           ports:
             - containerPort: 8321
-              protocol: TCP
           env:
             - name: AZURE_API_KEY
               valueFrom:
@@ -41,10 +39,9 @@ spec:
             - name: AZURE_API_TYPE
               value: "azure"
           volumeMounts:
-            - mountPath: /.llama/distributions
-              name: distributions
+            - name: run-config
+              mountPath: /config
       volumes:
-        - name: distributions
-          emptyDir: {}
-      restartPolicy: Always
-      terminationGracePeriodSeconds: 30
+        - name: run-config
+          configMap:
+            name: llamastack-run-config

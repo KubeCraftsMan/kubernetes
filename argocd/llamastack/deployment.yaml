@@ -16,8 +16,6 @@ spec:
       containers:
         - name: llamastack
           image: docker.io/llamastack/distribution-starter:0.5.0
-          command: ["python", "-m", "llama_stack.core.server.server"]
-          args: ["/config/run.yaml"]
           ports:
             - containerPort: 8321
           env:
@@ -26,10 +24,3 @@ spec:
                 secretKeyRef:
                   name: anthropic-secret
                   key: ANTHROPIC_API_KEY
-          volumeMounts:
-            - name: run-config
-              mountPath: /config
-      volumes:
-        - name: run-config
-          configMap:
-            name: llamastack-run-config

@@ -8,5 +8,5 @@ data:
     var argocdAssistantSettings = {
         provider: "Llama-Stack-V2",
         baseUrl: "http://llamastack.llamastack.svc.cluster.local:8321/v1/openai/v1",
-        model: "llamastack"
+        model: "azure/gpt-4o"
     };

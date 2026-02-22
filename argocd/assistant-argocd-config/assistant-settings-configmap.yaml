@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-assistant-settings
+  namespace: argocd
+data:
+  settings.js: |
+    var argocdAssistantSettings = {
+        provider: "Llama-Stack-V2",
+        baseUrl: "http://llamastack.llamastack.svc.cluster.local:8321",
+        model: "anthropic/claude-sonnet-4-20250514"
+    };

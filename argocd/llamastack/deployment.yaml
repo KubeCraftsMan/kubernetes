@@ -16,10 +16,23 @@ spec:
       containers:
         - name: llamastack
           image: docker.io/llamastack/distribution-starter:0.2.24
-          command: ["python", "-m", "llama_stack.core.server.server"]
-          args: ["/config/run.yaml"]
           ports:
             - containerPort: 8321
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - |
+                    sleep 10 && curl -s -X POST http://localhost:8321/v1/models \
+                      -H "Content-Type: application/json" \
+                      -d '{
+                        "model_id": "llamastack",
+                        "provider_id": "azure",
+                        "provider_resource_id": "llamastack",
+                        "model_type": "llm"
+                      }'
           env:
             - name: AZURE_API_KEY
               valueFrom:
@@ -38,10 +51,3 @@ spec:
                   key: AZURE_API_VERSION
             - name: AZURE_API_TYPE
               value: "azure"
-          volumeMounts:
-            - name: run-config
-              mountPath: /config
-      volumes:
-        - name: run-config
-          configMap:
-            name: llamastack-run-config

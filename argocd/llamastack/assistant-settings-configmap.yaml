@@ -7,6 +7,6 @@ data:
   settings.js: |
     var argocdAssistantSettings = {
         provider: "Llama-Stack-V2",
-        baseUrl: "http://llamastack.llamastack.svc.cluster.local:8321/v1/openai/v1",
-        model: "llamastack"
+        baseUrl: "http://llamastack.llamastack.svc.cluster.local:8321",
+        model: "anthropic/claude-sonnet-4-20250514"
     };

@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: llamastack
-          image: docker.io/llamastack/distribution-starter:0.2.24
+          image: docker.io/llamastack/distribution-starter:0.5.0
           command: ["python", "-m", "llama_stack.core.server.server"]
           args: ["/config/run.yaml"]
           ports:

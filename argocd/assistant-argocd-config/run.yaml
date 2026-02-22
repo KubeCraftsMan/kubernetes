@@ -7,41 +7,19 @@ data:
   run.yaml: |
     version: '2'
     image_name: starter
+    apis:
+      - inference
     providers:
       inference:
-        - provider_id: azure-openai
-          provider_type: remote::openai
+        - provider_id: anthropic
+          provider_type: remote::anthropic
           config:
-            api_key: ${env.AZURE_API_KEY}
-            openai_compatible_api_base: "https://stg-us-east-coreplatform.openai.azure.com/openai/deployments/llamastack"
-      vector_io:
-        - provider_id: faiss
-          provider_type: inline::faiss
-          config:
-            kvstore:
-              type: sqlite
-              db_path: /tmp/faiss_store.db
-      agents:
-        - provider_id: meta-reference
-          provider_type: inline::meta-reference
-          config:
-            persistence_store:
-              type: sqlite
-              db_path: /tmp/agents_store.db
-      telemetry:
-        - provider_id: meta-reference
-          provider_type: inline::meta-reference
-          config:
-            sqlite_db_path: /tmp/trace_store.db
-      safety: []
-
+            api_key: ${env.ANTHROPIC_API_KEY}
     models:
-      - model_id: llamastack
-        provider_id: azure-openai
-        provider_resource_id: llamastack
+      - model_id: claude-sonnet-4-20250514
+        provider_id: anthropic
+        provider_resource_id: claude-sonnet-4-20250514
         model_type: llm
-        metadata: {}
-
     shields: []
     vector_dbs: []
     datasets: []

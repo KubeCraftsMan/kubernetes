@@ -9,13 +9,11 @@ data:
     image_name: starter
     providers:
       inference:
-        - provider_id: azure
-          provider_type: remote::azure
+        - provider_id: azure-openai
+          provider_type: remote::openai
           config:
             api_key: ${env.AZURE_API_KEY}
-            api_base: ${env.AZURE_API_BASE}
-            api_version: ${env.AZURE_API_VERSION}
-            api_type: azure
+            openai_compatible_api_base: "https://stg-us-east-coreplatform.openai.azure.com/openai/deployments/llamastack"
       vector_io:
         - provider_id: faiss
           provider_type: inline::faiss
@@ -39,8 +37,8 @@ data:
 
     models:
       - model_id: llamastack
-        provider_id: azure
-        provider_resource_id: gpt-4o
+        provider_id: azure-openai
+        provider_resource_id: llamastack
         model_type: llm
         metadata: {}
 

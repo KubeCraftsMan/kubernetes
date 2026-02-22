@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: llamastack-run-config
+  namespace: llamastack
+data:
+  run.yaml: |
+    version: '2'
+    image_name: starter
+    apis:
+      - inference
+    providers:
+      inference:
+        - provider_id: anthropic
+          provider_type: remote::anthropic
+          config:
+            api_key: ${env.ANTHROPIC_API_KEY}
+    models:
+      - model_id: claude-sonnet-4-20250514
+        provider_id: anthropic
+        provider_resource_id: claude-sonnet-4-20250514
+        model_type: llm
+    shields: []
+    vector_dbs: []
+    datasets: []
+    scoring_fns: []
+    eval_tasks: []
+    tool_groups: []
